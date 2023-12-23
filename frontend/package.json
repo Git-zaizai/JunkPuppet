@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "ahooks": "^3.7.8",
     "antd": "^5.10.1",
     "echarts": "^5.4.3",
     "lodash": "^4.17.21",

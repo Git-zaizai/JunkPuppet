@@ -30,6 +30,8 @@ declare namespace NodeJS {
     CHROME_PATH: string;
     /** 日志文件夹 */
     DATA_PATH_LOG: string;
+    /** 脚本文件存放目录 */
+    DATA_SCRIPT_PATH: string
   }
 }
 

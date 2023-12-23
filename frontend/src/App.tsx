@@ -5,6 +5,7 @@ import { defaultRouter, optionalRouter } from '@/routers/index'
 import { getGlobalSetting, openDevTools } from './service'
 import { useEffect, useState } from 'react'
 import { useSettingStore, useRootVarsStore } from './views/stores'
+import Globalmethod from '@/components/globalmethod'
 
 function pickOptionalRouters() {
   // pick some routes
@@ -30,7 +31,7 @@ function App() {
   }
   useEffect(() => {
     handleGetGlobalSetting()
-    window.addEventListener('keydown', e => {
+    window.addEventListener('keydown', (e) => {
       if (e.key === 'F12') {
         openDevTools()
       }
@@ -44,7 +45,10 @@ function App() {
   return visible ? (
     <ConfigProvider
       theme={{
-        algorithm: rootVars.isTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        algorithm:
+          rootVars.isTheme === 'dark'
+            ? theme.darkAlgorithm
+            : theme.defaultAlgorithm,
         token: rootVars.themeToken,
         components: {
           Menu: {
@@ -54,7 +58,9 @@ function App() {
       }}
       locale={zhCN}
     >
-      <RouterProvider router={routes} />
+      <Globalmethod>
+        <RouterProvider router={routes} />
+      </Globalmethod>
     </ConfigProvider>
   ) : null
 }
