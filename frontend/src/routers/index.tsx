@@ -7,6 +7,7 @@ const InitRouter = lazy(() => import("@/views/init"));
 const SettingRouter = lazy(() => import("@/views/setting"));
 const TaskListRouter = lazy(() => import("@/views/taskList"));
 const LogRouter = lazy(() => import("@/views/log"));
+const ScriptRouter = lazy(()=> import('@/views/scriptList'))
 
 function LodingPage(props: any) {
   document.title = props.title;
@@ -71,6 +72,14 @@ export const optionalRouter: any[] = [
     element: (
       <LodingPage title="全局设置">
         <SettingRouter></SettingRouter>
+      </LodingPage>
+    ),
+  },
+  {
+    path: "/script",
+    element: (
+      <LodingPage title="脚本列表">
+        <ScriptRouter></ScriptRouter>
       </LodingPage>
     ),
   },

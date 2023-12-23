@@ -1,4 +1,4 @@
-import { ipcMain } from "electron";
+import { ipcMain, BrowserWindow } from "electron";
 import {
   addTask,
   updateTask,
@@ -143,6 +143,13 @@ export const routes: Route[] = [
   {
     path: "uploadJSONSetting",
     callBack: (_event, arg) => wrapService(uploadJSONSetting, arg),
+  },
+  {
+    path: "openDevTools",   // 打开控制台  前端通过发送通信后这边打开控制台
+    callBack: (_event, arg) => wrapService(async () => {
+      const win = BrowserWindow.getFocusedWindow();
+      win && win.webContents.toggleDevTools()
+    }, arg),
   },
 ];
 

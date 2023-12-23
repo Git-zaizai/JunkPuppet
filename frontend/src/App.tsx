@@ -1,52 +1,62 @@
-import { ConfigProvider, theme } from "antd";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import zhCN from "antd/locale/zh_CN";
-import { defaultRouter, optionalRouter } from "@/routers/index";
-import { getGlobalSetting } from "./service";
-import { useEffect, useState } from "react";
-import { useSettingStore } from "./views/stores";
+import { ConfigProvider, theme } from 'antd'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import zhCN from 'antd/locale/zh_CN'
+import { defaultRouter, optionalRouter } from '@/routers/index'
+import { getGlobalSetting, openDevTools } from './service'
+import { useEffect, useState } from 'react'
+import { useSettingStore, useRootVarsStore } from './views/stores'
 
 function pickOptionalRouters() {
   // pick some routes
-  return optionalRouter;
+  return optionalRouter
 }
 function App() {
-  const [visible, setVisible] = useState(false);
-  const [routes, setRoutes] = useState<any>(null);
-  const { setSettingInfo } = useSettingStore();
+  const [visible, setVisible] = useState(false)
+  const [routes, setRoutes] = useState<any>(null)
+  const { setSettingInfo } = useSettingStore()
+  const { getRootVars } = useRootVarsStore()
+  const rootVars = getRootVars()
+
   const handleGetGlobalSetting = async () => {
-    const result = await getGlobalSetting({});
-    const target = JSON.parse(result);
+    const result = await getGlobalSetting({})
+    const target = JSON.parse(result)
     if (target) {
-      setSettingInfo(target);
-      setRoutes(createBrowserRouter(pickOptionalRouters()));
+      setSettingInfo(target)
+      setRoutes(createBrowserRouter(pickOptionalRouters()))
     } else {
-      setRoutes(createBrowserRouter(defaultRouter));
+      setRoutes(createBrowserRouter(defaultRouter))
     }
-    setVisible(true);
-  };
+    setVisible(true)
+  }
   useEffect(() => {
-    handleGetGlobalSetting();
-  }, []);
+    handleGetGlobalSetting()
+    window.addEventListener('keydown', e => {
+      if (e.key === 'F12') {
+        openDevTools()
+      }
+    })
+  }, [])
+  /* 
+ 原版颜色
+ {
+    colorPrimary: '#3160F8',
+  } */
   return visible ? (
     <ConfigProvider
       theme={{
-        algorithm: theme.darkAlgorithm,
-        token: {
-          fontFamily: "PuHui55Regular",
-          colorPrimary: "#3160F8",
-        },
+        algorithm: rootVars.isTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+        token: rootVars.themeToken,
         components: {
           Menu: {
-            darkItemSelectedBg: "#3a3a3a",
-          },
-        },
+            darkItemSelectedBg: '#3a3a3a'
+          }
+        }
       }}
       locale={zhCN}
     >
       <RouterProvider router={routes} />
     </ConfigProvider>
-  ) : null;
+  ) : null
 }
 
-export default App;
+export default App

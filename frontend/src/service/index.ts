@@ -85,3 +85,8 @@ export const openChrome = async (params: any) => {
 export const uploadJSONSetting = async (params: any) => {
   return FetchData("uploadJSONSetting", params);
 };
+
+// 发送通信 打开控制台
+export const openDevTools = async () => {
+  return FetchData("openDevTools", null);
+}

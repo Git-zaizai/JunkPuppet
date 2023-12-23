@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, Tray, Notification } from "electron";
+import { app, BrowserWindow, Menu, Tray, Notification, globalShortcut } from "electron";
 import { join } from "node:path";
 import log4js from "log4js";
 import {
@@ -11,6 +11,8 @@ import {
 import { initRoutes } from "./routers";
 import { initLogger } from "./service/logger";
 import { tranlateDate } from "./utils/tools";
+
+
 
 function createWindow() {
   const iconPath = join(process.env.VITE_PUBLIC, "robot.png");
@@ -44,7 +46,7 @@ function createWindow() {
   } else {
     win.loadFile(join(process.env.DIST, "index.html"));
   }
-  // init Menu
+  // init Menu 系统设置栏
   const appTray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     {
@@ -78,6 +80,7 @@ function createWindow() {
   });
   appTray.setToolTip("拾荒木偶");
   appTray.setContextMenu(contextMenu);
+
   return win;
 }
 app.setAppUserModelId("JunkPuppet-拾荒木偶");
@@ -148,6 +151,8 @@ app
       // 点击托盘图标时通常会重新创建一个新窗口
       if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
+
+
   })
   .catch((e) => {
     console.log(e);
